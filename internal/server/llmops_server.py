@@ -7,13 +7,16 @@
 """
 from flask import Flask
 
+from config import Config
 from internal.router import Router
 
 
 class LLMOpsApp(Flask):
     """LLMOps的Http服务引擎， 后续还会添加 BigdataOps 的Http服务引擎"""
 
-    def __init__(self, *args, router: Router, **kwargs):
+    def __init__(self, *args, conf: Config, router: Router, **kwargs):
         super().__init__(*args, **kwargs)
         # 注册应用路由
         router.register_router(self)
+
+        self.config.from_object(conf)

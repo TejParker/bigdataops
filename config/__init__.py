@@ -5,3 +5,6 @@
 @Date    ：2024-07-05 23:56 
 @explain : 文件说明
 """
+from .config import Config
+
+__all__ = ["Config"]

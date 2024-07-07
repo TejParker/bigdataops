@@ -10,7 +10,7 @@ from typing import Any
 
 from flask import jsonify
 
-from pkg.response.http_code import HttpCode
+from .http_code import HttpCode
 
 
 @dataclass
@@ -22,7 +22,7 @@ class Response:
 
 def json(data: Response = None):
     """基础的响应接口"""
-    jsonify(data), 200
+    return jsonify(data), 200
 
 
 def success_json(data: Any = None):

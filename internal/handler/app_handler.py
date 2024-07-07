@@ -5,13 +5,13 @@
 @Date    ：2024-07-06 13:43 
 @explain : 文件说明
 """
-import os
 
 from flask import request
 from openai import OpenAI
+from openai.types.chat import ChatCompletion
 
 from internal.schema.app_schema import CompletionReq
-from pkg.response import success_json, validate_error_json
+from pkg.response import validate_error_json, success_json, fail_message
 
 
 class AppHandler:
@@ -30,20 +30,31 @@ class AppHandler:
         if not req.validate():
             return validate_error_json(req.errors)
         query = request.json.get("query")
-
         # 2. 构建OpenAI客户端， 并发起请求
-        client = OpenAI(base_url=os.getenv("OPENAI_API_BASE"))
+        client = OpenAI()
         # 3. 得到请求响应，然后将OpenAI的响应传递给前端
-        completion = client.chat.completions.create(
-            model="gpt-3.5-turbo-16k",
-            messages=[
-                {"role": "system",
-                 "content": "You are a chat bot developed by OpenAI, you can assist use as you can, especially in "
-                            "programing"},
-                {"role": "user", "content": query}
-            ]
-        )
+        completion: ChatCompletion = None
+        try:
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo-16k",
+                messages=[
+                    {"role": "system",
+                     "content": "You are a chat bot developed by OpenAI, you can assist use as you can, especially in "
+                                "programing"},
+                    {"role": "user", "content": query}
+                ]
+            )
+        except Exception as e:
+            return fail_message("Api key error or reach limit")
+        finally:
+            client.close()
 
-        content = completion.choices[0].message.content
+        content = ""
+        if completion:
+            content = completion.choices[0].message.content
 
+        # resp = Response(code=HttpCode.SUCCESS, message="", data={"content": content})
+        #
+        # return jsonify(resp), 200
+        # 对上面的返回进行封装
         return success_json({"content": content})

@@ -5,6 +5,8 @@
 @Date    ：2024-07-06 14:09 
 @explain : 文件说明
 """
+import os
+
 import dotenv
 from injector import Injector
 
@@ -20,4 +22,7 @@ injector = Injector()
 app = LLMOpsApp(__name__, conf=conf, router=injector.get(Router))
 
 if __name__ == '__main__':
+    print(os.getenv(
+        "OPENAI_API_KEY"
+    ))
     app.run(debug=True)

@@ -10,6 +10,7 @@ from flask import request
 from openai import OpenAI
 from openai.types.chat import ChatCompletion
 
+from internal.exception import FailException
 from internal.schema.app_schema import CompletionReq
 from pkg.response import validate_error_json, success_json, fail_message
 
@@ -19,9 +20,10 @@ class AppHandler:
     应用控制器
     """
 
-    @staticmethod
-    def ping():
-        return {"msg": "you are here"}
+    # @staticmethod
+    def ping(self):
+        raise FailException("数据未找到")
+        # return {"msg": "you are here"}
 
     def chat_completion(self):
         """聊天接口"""

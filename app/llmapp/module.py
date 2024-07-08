@@ -5,10 +5,10 @@
 @Date    ：2024-07-07 23:02 
 @explain : 文件说明
 """
-from flask_sqlalchemy import SQLAlchemy
 from injector import Module, Binder
 
 from internal.extension.database_extension import db
+from pkg.sqlalchemy import SQLAlchemy
 
 
 class ExtensionModule(Module):

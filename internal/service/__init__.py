@@ -5,3 +5,8 @@
 @Date    ：2024-07-05 23:56 
 @explain : 文件说明
 """
+from .app_service import AppService
+
+__all__ = [
+    "AppService"
+]

@@ -5,20 +5,44 @@
 @Date    ：2024-07-06 13:43 
 @explain : 文件说明
 """
+import uuid
+from dataclasses import dataclass
 
 from flask import request
+from injector import inject
 from openai import OpenAI
 from openai.types.chat import ChatCompletion
 
 from internal.exception import FailException
 from internal.schema.app_schema import CompletionReq
-from pkg.response import validate_error_json, success_json, fail_message
+from internal.service import AppService
+from pkg.response import validate_error_json, success_json, fail_message, success_message
 
 
+@inject
+@dataclass
 class AppHandler:
     """
     应用控制器
     """
+    app_service: AppService
+
+    def create_app(self):
+        """调用服务创建新的App记录"""
+        app = self.app_service.creat_app()
+        return success_message(f"app创建成功, id为{app.id}")
+
+    def get_app(self, id: uuid.UUID):
+        app = self.app_service.get_app(id)
+        return success_message(f"应用成功获取，名字是[{app.name}]")
+
+    def update_app(self, id: uuid.UUID):
+        app = self.app_service.update_app(id)
+        return success_message(f"应用信息已经修改，修改的名字是:{app.name}")
+
+    def delete_app(self, id: uuid.UUID):
+        app = self.app_service.delete_app(id)
+        return success_message(f"应用已经成功删除，删除的id为{app.id}")
 
     # @staticmethod
     def ping(self):

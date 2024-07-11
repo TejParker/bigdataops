@@ -1,0 +1,42 @@
+D:\projects\llmops\llmops-api\env\Scripts\python.exe D:/projects/llmops/llmops-api/learn/model_component/openai_chat_model.py
+input_variables=['query'] partial_variables={'now': datetime.datetime(2024, 7, 10, 0, 22, 22, 525682)} messages=[SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=['now'], template='你是OpenAI开发的聊天机器人，请回答用户的问题，现在的时间是{now}')), HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['query'], template='{query}'))]
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:httpx:load_ssl_context verify=True cert=None trust_env=True http2=False
+DEBUG:httpx:load_verify_locations cafile='D:\\projects\\llmops\\llmops-api\\env\\Lib\\site-packages\\certifi\\cacert.pem'
+DEBUG:openai._base_client:Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'json_data': {'messages': [{'content': '你是OpenAI开发的聊天机器人，请回答用户的问题，现在的时间是2024-07-10 00:22:22.525682', 'role': 'system'}, {'content': '现在是几点？请讲一个程序员的冷笑话', 'role': 'user'}], 'model': 'gpt-3.5-turbo-16k', 'n': 1, 'stream': False, 'temperature': 0.7}}
+DEBUG:openai._base_client:Sending HTTP Request: POST https://api.openai.com/v1/chat/completions
+DEBUG:httpcore.connection:connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=None socket_options=None
+DEBUG:httpcore.connection:connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001DC081EDB90>
+DEBUG:httpcore.http11:send_request_headers.started request=<Request [b'CONNECT']>
+DEBUG:httpcore.http11:send_request_headers.complete
+DEBUG:httpcore.http11:send_request_body.started request=<Request [b'CONNECT']>
+DEBUG:httpcore.http11:send_request_body.complete
+DEBUG:httpcore.http11:receive_response_headers.started request=<Request [b'CONNECT']>
+DEBUG:httpcore.http11:receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+DEBUG:httpcore.proxy:start_tls.started ssl_context=<ssl.SSLContext object at 0x000001DC081A8290> server_hostname='api.openai.com' timeout=None
+DEBUG:httpcore.proxy:start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001DC081B2AD0>
+DEBUG:httpcore.http11:send_request_headers.started request=<Request [b'POST']>
+DEBUG:httpcore.http11:send_request_headers.complete
+DEBUG:httpcore.http11:send_request_body.started request=<Request [b'POST']>
+DEBUG:httpcore.http11:send_request_body.complete
+DEBUG:httpcore.http11:receive_response_headers.started request=<Request [b'POST']>
+DEBUG:httpcore.http11:receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 09 Jul 2024 16:22:28 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'openai-organization', b'user-fjpfhjuvq1qwl1snh8btftks'), (b'openai-processing-ms', b'1163'), (b'openai-version', b'2020-10-01'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains'), (b'x-ratelimit-limit-requests', b'10000'), (b'x-ratelimit-limit-tokens', b'60000'), (b'x-ratelimit-remaining-requests', b'9999'), (b'x-ratelimit-remaining-tokens', b'59941'), (b'x-ratelimit-reset-requests', b'8.64s'), (b'x-ratelimit-reset-tokens', b'59ms'), (b'x-request-id', b'req_22669764dd6a526a8eacbbec24253bbe'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Set-Cookie', b'__cf_bm=vut1YsApIoDzxO47i8hUkCaZTdC1jgKjzOVj.vqY2M8-1720542148-1.0.1.1-FIK0xQNzoFCT22XDq7AQW9.cC9IY.jkoYs8Yw91dNS86tlx4rbwwVF_JThk_.WkZwJxgypWD.1_2RKAb9wLKXw; path=/; expires=Tue, 09-Jul-24 16:52:28 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Set-Cookie', b'_cfuvid=UQbUuim2a2MM7pF_n6AdLYOl.sdWIWXpbsFvfHHafyg-1720542148393-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8a09a71e4da991d7-FRA'), (b'Content-Encoding', b'gzip'), (b'alt-svc', b'h3=":443"; ma=86400')])
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+DEBUG:httpcore.http11:receive_response_body.started request=<Request [b'POST']>
+DEBUG:httpcore.http11:receive_response_body.complete
+DEBUG:httpcore.http11:response_closed.started
+DEBUG:httpcore.http11:response_closed.complete
+DEBUG:openai._base_client:HTTP Response: POST https://api.openai.com/v1/chat/completions "200 OK" Headers([('date', 'Tue, 09 Jul 2024 16:22:28 GMT'), ('content-type', 'application/json'), ('transfer-encoding', 'chunked'), ('connection', 'keep-alive'), ('openai-organization', 'user-fjpfhjuvq1qwl1snh8btftks'), ('openai-processing-ms', '1163'), ('openai-version', '2020-10-01'), ('strict-transport-security', 'max-age=31536000; includeSubDomains'), ('x-ratelimit-limit-requests', '10000'), ('x-ratelimit-limit-tokens', '60000'), ('x-ratelimit-remaining-requests', '9999'), ('x-ratelimit-remaining-tokens', '59941'), ('x-ratelimit-reset-requests', '8.64s'), ('x-ratelimit-reset-tokens', '59ms'), ('x-request-id', 'req_22669764dd6a526a8eacbbec24253bbe'), ('cf-cache-status', 'DYNAMIC'), ('set-cookie', '__cf_bm=vut1YsApIoDzxO47i8hUkCaZTdC1jgKjzOVj.vqY2M8-1720542148-1.0.1.1-FIK0xQNzoFCT22XDq7AQW9.cC9IY.jkoYs8Yw91dNS86tlx4rbwwVF_JThk_.WkZwJxgypWD.1_2RKAb9wLKXw; path=/; expires=Tue, 09-Jul-24 16:52:28 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('set-cookie', '_cfuvid=UQbUuim2a2MM7pF_n6AdLYOl.sdWIWXpbsFvfHHafyg-1720542148393-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('server', 'cloudflare'), ('cf-ray', '8a09a71e4da991d7-FRA'), ('content-encoding', 'gzip'), ('alt-svc', 'h3=":443"; ma=86400')])
+DEBUG:openai._base_client:request_id: req_22669764dd6a526a8eacbbec24253bbe
+content='现在的时间是2024-07-10 00:22:22.525682。\n\n好的，给你讲一个程序员的冷笑话：\n\n为什么程序员总是喜欢玩扑克牌？\n因为他们喜欢看一堆Bug（Bugs）！' response_metadata={'token_usage': {'completion_tokens': 76, 'prompt_tokens': 70, 'total_tokens': 146}, 'model_name': 'gpt-3.5-turbo-16k-0613', 'system_fingerprint': None, 'finish_reason': 'stop', 'logprobs': None} id='run-23550356-effa-4921-8ac2-713480124dc5-0' usage_metadata={'input_tokens': 70, 'output_tokens': 76, 'total_tokens': 146}
+
+Process finished with exit code 0

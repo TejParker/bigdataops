@@ -10,13 +10,14 @@ from dataclasses import dataclass
 
 from flask import request
 from injector import inject
-from openai import OpenAI
-from openai.types.chat import ChatCompletion
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
 from internal.exception import FailException
 from internal.schema.app_schema import CompletionReq
 from internal.service import AppService
-from pkg.response import validate_error_json, success_json, fail_message, success_message
+from pkg.response import validate_error_json, success_json, success_message
 
 
 @inject
@@ -55,29 +56,18 @@ class AppHandler:
         req = CompletionReq()
         if not req.validate():
             return validate_error_json(req.errors)
+
+        prompt = ChatPromptTemplate.from_template("{query}")
         query = request.json.get("query")
         # 2. 构建OpenAI客户端， 并发起请求
-        client = OpenAI()
-        # 3. 得到请求响应，然后将OpenAI的响应传递给前端
-        completion: ChatCompletion = None
-        try:
-            completion = client.chat.completions.create(
-                model="gpt-3.5-turbo-16k",
-                messages=[
-                    {"role": "system",
-                     "content": "You are a chat bot developed by OpenAI, you can assist use as you can, especially in "
-                                "programing"},
-                    {"role": "user", "content": query}
-                ]
-            )
-        except Exception as e:
-            return fail_message("Api key error or reach limit")
-        finally:
-            client.close()
+        llm = ChatOpenAI(model="gpt-3.5-turbo")
 
-        content = ""
-        if completion:
-            content = completion.choices[0].message.content
+        ai_message = llm.invoke(prompt.invoke({"query": req.query.data}))
+
+        parser = StrOutputParser()
+        # 解析响应内容
+        content = parser.invoke(ai_message)
+        # 3. 得到请求响应，然后将OpenAI的响应传递给前端
 
         # resp = Response(code=HttpCode.SUCCESS, message="", data={"content": content})
         #

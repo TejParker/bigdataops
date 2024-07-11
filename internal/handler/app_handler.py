@@ -8,7 +8,6 @@
 import uuid
 from dataclasses import dataclass
 
-from flask import request
 from injector import inject
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -58,15 +57,18 @@ class AppHandler:
             return validate_error_json(req.errors)
 
         prompt = ChatPromptTemplate.from_template("{query}")
-        query = request.json.get("query")
         # 2. 构建OpenAI客户端， 并发起请求
         llm = ChatOpenAI(model="gpt-3.5-turbo")
-
-        ai_message = llm.invoke(prompt.invoke({"query": req.query.data}))
-
         parser = StrOutputParser()
+
+        # ai_message = llm.invoke(prompt.invoke({"query": req.query.data}))
+
         # 解析响应内容
-        content = parser.invoke(ai_message)
+        # content = parser.invoke(ai_message)
+
+        chain = prompt | llm | parser
+
+        content = chain.invoke({"query": req.query.data})
         # 3. 得到请求响应，然后将OpenAI的响应传递给前端
 
         # resp = Response(code=HttpCode.SUCCESS, message="", data={"content": content})

@@ -8,6 +8,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 from config import Config
@@ -40,6 +41,15 @@ class LLMOpsApp(Flask):
         #     _ = App()
         #     db.create_all()
         # 注册应用路由
+        # 解决前后端跨域问题
+        CORS(self, resources={
+            r"/*": {
+                "origins": "*",
+                "supports_credentials": True,
+                # "methods": ["GET", "POST"],
+                # "allow_headers": ["Content-Type"]
+            }
+        })
         router.register_router(self)
 
     def _register_error_handler(self, error: Exception):

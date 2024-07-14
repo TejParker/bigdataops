@@ -27,7 +27,8 @@ class AppService:
                 name="测试机器人",
                 account_id=uuid.uuid4(),
                 icon="",
-                description="这是一个简单的聊天机器人"
+                description="这是一个简单的聊天机器人",
+                status='up'
             )
             # 2. 将实体类添加到session会话中
             self.db.session.add(app)

@@ -49,6 +49,22 @@ class AppHandler:
         raise FailException("数据未找到")
         # return {"msg": "you are here"}
 
+    def debug(self, app_id: uuid.UUID):
+        """聊天调试接口"""
+        req = CompletionReq()
+        if not req.validate():
+            return validate_error_json(req.errors)
+
+        prompt = ChatPromptTemplate.from_template("{query}")
+        llm = ChatOpenAI(model='gpt-3.5-turbo')
+        parser = StrOutputParser()
+
+        chain = prompt | llm | parser
+
+        content = chain.invoke({"query": req.query.data})
+
+        return success_json({"content": content})
+
     def chat_completion(self):
         """聊天接口"""
         # 1. 提取从接口中获取的输入,POST

@@ -7,10 +7,14 @@
 """
 import uuid
 from dataclasses import dataclass
+from operator import itemgetter
 
 from injector import inject
+from langchain.memory import ConversationBufferWindowMemory
+from langchain_community.chat_message_histories import FileChatMessageHistory
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_openai import ChatOpenAI
 
 from internal.exception import FailException
@@ -55,13 +59,36 @@ class AppHandler:
         if not req.validate():
             return validate_error_json(req.errors)
 
-        prompt = ChatPromptTemplate.from_template("{query}")
+        # 创建prompt与记忆
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "you are a chatbot developed by OpenAI, you can answer any questions user asked"),
+            MessagesPlaceholder("history"),
+            ("human", "{query}"),
+        ])
+        memory = ConversationBufferWindowMemory(
+            k=3,
+            input_key="query",
+            output_key="output",
+            return_messages=True,
+            chat_memory=FileChatMessageHistory("./storage/memory/chat_history.txt")
+        )
+        # 创建llm
         llm = ChatOpenAI(model='gpt-3.5-turbo')
-        parser = StrOutputParser()
 
-        chain = prompt | llm | parser
+        chain = RunnablePassthrough.assign(
+            history=RunnableLambda(memory.load_memory_variables) | itemgetter("history")
+        ) | prompt | llm | StrOutputParser()
 
-        content = chain.invoke({"query": req.query.data})
+        chain_input = {"query": req.query.data}
+        content = chain.invoke(chain_input)
+        memory.save_context(chain_input, {"output": content})
+        # prompt = ChatPromptTemplate.from_template("{query}")
+        # llm = ChatOpenAI(model='gpt-3.5-turbo')
+        # parser = StrOutputParser()
+        #
+        # chain = prompt | llm | parser
+        #
+        # content = chain.invoke({"query": req.query.data})
 
         return success_json({"content": content})
 
